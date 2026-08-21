@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ลงประกาศงาน | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="employer-dashboard.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="employer-dashboard.html">แดชบอร์ด</a>
+      <a href="employer-post-job.html" aria-current="page">ลงประกาศงานใหม่</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <span class="avatar" aria-hidden="true">BS</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="section-tight">
+  <div class="container" style="max-width:760px;">
+    <a href="employer-dashboard.html" class="row gap-2 text-sm text-muted" style="margin-bottom:16px; display:inline-flex;"><span data-icon="arrowLeft" data-icon-class="icon-sm"></span>กลับไปแดชบอร์ด</a>
+    <h1 class="h2" id="page-heading" style="margin-bottom:4px;">ลงประกาศงานใหม่</h1>
+    <p class="text-muted text-sm" style="margin-bottom:24px;">กรอกรายละเอียดให้ครบถ้วน ทีมงานจะตรวจสอบก่อนเผยแพร่</p>
+
+    <form id="job-form" novalidate>
+      <fieldset class="form-fieldset">
+        <legend>ข้อมูลพื้นฐาน</legend>
+        <div class="form-group">
+          <label class="form-label" for="j-title">ตำแหน่งงาน<span class="required">*</span></label>
+          <input class="form-control" type="text" id="j-title" placeholder="เช่น Frontend Developer" required>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกชื่อตำแหน่งงาน</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="j-category">หมวดหมู่<span class="required">*</span></label>
+            <select class="form-control" id="j-category" required></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="j-type">ประเภทงาน<span class="required">*</span></label>
+            <select class="form-control" id="j-type" required>
+              <option value="full_time">งานประจำ</option>
+              <option value="part_time">พาร์ทไทม์</option>
+              <option value="contract">สัญญาจ้าง</option>
+              <option value="internship">ฝึกงาน</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="j-workmodel">รูปแบบการทำงาน<span class="required">*</span></label>
+            <select class="form-control" id="j-workmodel" required>
+              <option value="onsite">ทำงานที่บริษัท</option>
+              <option value="hybrid">ไฮบริด</option>
+              <option value="remote">ทำงานทางไกล</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="j-location">สถานที่ทำงาน<span class="required">*</span></label>
+            <input class="form-control" type="text" id="j-location" placeholder="เช่น กรุงเทพฯ" required>
+            <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณาระบุสถานที่ทำงาน</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="j-salary-min">เงินเดือนขั้นต่ำ (บาท)</label>
+            <input class="form-control" type="number" id="j-salary-min" min="0" step="1000">
+            <p class="form-help">เว้นว่างได้หากไม่เปิดเผยเงินเดือน</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="j-salary-max">เงินเดือนสูงสุด (บาท)</label>
+            <input class="form-control" type="number" id="j-salary-max" min="0" step="1000">
+            <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>ต้องมากกว่าหรือเท่ากับเงินเดือนขั้นต่ำ</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-fieldset">
+        <legend>รายละเอียดงาน</legend>
+        <div class="form-group">
+          <label class="form-label" for="j-description">คำอธิบายตำแหน่งงาน<span class="required">*</span></label>
+          <textarea class="form-control" id="j-description" required></textarea>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกคำอธิบายตำแหน่งงาน</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="j-skills">ทักษะที่ต้องการ</label>
+          <input class="form-control" type="text" id="j-skills" placeholder="คั่นแต่ละทักษะด้วยเครื่องหมายจุลภาค เช่น React, TypeScript">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="j-responsibilities">ความรับผิดชอบ</label>
+          <textarea class="form-control" id="j-responsibilities" placeholder="หนึ่งข้อต่อหนึ่งบรรทัด"></textarea>
+          <p class="form-help">พิมพ์หนึ่งข้อต่อหนึ่งบรรทัด</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="j-requirements">คุณสมบัติผู้สมัคร</label>
+          <textarea class="form-control" id="j-requirements" placeholder="หนึ่งข้อต่อหนึ่งบรรทัด"></textarea>
+          <p class="form-help">พิมพ์หนึ่งข้อต่อหนึ่งบรรทัด</p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-fieldset">
+        <legend>การเผยแพร่</legend>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="j-expires-at">วันหมดอายุประกาศ<span class="required">*</span></label>
+          <input class="form-control" type="date" id="j-expires-at" required>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-fieldset">
+        <legend>สวัสดิการ</legend>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="j-benefits">สวัสดิการที่มอบให้</label>
+          <textarea class="form-control" id="j-benefits" placeholder="หนึ่งข้อต่อหนึ่งบรรทัด"></textarea>
+          <p class="form-help">พิมพ์หนึ่งข้อต่อหนึ่งบรรทัด เช่น ประกันสุขภาพกลุ่ม</p>
+        </div>
+      </fieldset>
+
+      <div class="row gap-3 wrap" style="margin-top:8px;">
+        <button type="submit" class="btn btn-primary" id="submit-review-btn" data-mode="pending_review"><span class="btn-label">ส่งตรวจสอบและเผยแพร่</span><span class="spinner" aria-hidden="true"></span></button>
+        <button type="submit" class="btn btn-secondary" id="save-draft-btn" data-mode="draft"><span class="btn-label">บันทึกเป็นฉบับร่าง</span><span class="spinner" aria-hidden="true"></span></button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container"><p class="text-xs">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p></div>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/employer-post-job.js"></script>
+</body>
+</html>

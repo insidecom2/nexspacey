@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>โปรไฟล์ของฉัน | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="index.html">หางาน</a>
+      <a href="candidate-profile.html" aria-current="page">โปรไฟล์ของฉัน</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <a class="btn btn-icon btn-ghost" href="candidate-profile.html" aria-label="โปรไฟล์ของฉัน"><span data-icon="users"></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="section-tight">
+  <div class="container">
+    <div class="row gap-3" style="margin-bottom:24px; align-items:center;">
+      <div class="avatar" style="width:56px;height:56px;font-size:18px;" id="avatar-initials" aria-hidden="true"></div>
+      <div>
+        <h1 class="h2" id="profile-name" style="font-size:22px;"></h1>
+        <p class="text-muted text-sm" id="profile-title"></p>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="จัดการโปรไฟล์">
+      <button class="tab-btn is-active" id="tab-btn-profile" role="tab" aria-selected="true" aria-controls="tab-profile" data-tab="profile">โปรไฟล์</button>
+      <button class="tab-btn" id="tab-btn-saved" role="tab" aria-selected="false" aria-controls="tab-saved" data-tab="saved">งานที่บันทึกไว้ <span id="saved-count" class="badge badge-neutral"></span></button>
+      <button class="tab-btn" id="tab-btn-applications" role="tab" aria-selected="false" aria-controls="tab-applications" data-tab="applications">ใบสมัครของฉัน <span id="app-count" class="badge badge-neutral"></span></button>
+    </div>
+
+    <div style="padding-top:24px;">
+      <!-- Profile tab -->
+      <section class="tab-panel is-active" id="tab-profile" role="tabpanel" aria-labelledby="tab-btn-profile">
+        <div class="card card-pad" style="max-width:640px;">
+          <form id="profile-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="p-name">ชื่อ-นามสกุล<span class="required">*</span></label>
+                <input class="form-control" type="text" id="p-name" required>
+                <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกชื่อ-นามสกุล</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-title">ตำแหน่งที่สนใจ</label>
+                <input class="form-control" type="text" id="p-title">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="p-email">อีเมล<span class="required">*</span></label>
+                <input class="form-control" type="email" id="p-email" required>
+                <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกอีเมลให้ถูกต้อง</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-phone">เบอร์โทรศัพท์</label>
+                <input class="form-control" type="tel" id="p-phone">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-location">พื้นที่ทำงานที่สะดวก</label>
+              <input class="form-control" type="text" id="p-location">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-summary">แนะนำตัวสั้น ๆ</label>
+              <textarea class="form-control" id="p-summary"></textarea>
+              <p class="form-help">ใช้ 2-3 ประโยคสรุปประสบการณ์และความสนใจของคุณ</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ทักษะ</label>
+              <div id="skills-list" class="row wrap gap-2" style="margin-bottom:8px;"></div>
+              <div class="row gap-2">
+                <input class="form-control" type="text" id="skill-input" placeholder="เพิ่มทักษะแล้วกด Enter" style="max-width:240px;">
+                <button type="button" class="btn btn-secondary btn-sm" id="add-skill-btn">เพิ่ม</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">เรซูเม่</label>
+              <div id="resume-display" class="card card-pad row gap-3" style="align-items:center; background:var(--color-neutral-surface);"></div>
+              <label class="upload-drop" for="resume-upload" id="upload-drop" style="margin-top:10px;">
+                <span data-icon="upload" style="margin:0 auto 8px;"></span>
+                <p class="text-sm" style="font-weight:600; color:var(--color-text);">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</p>
+                <p class="text-xs">PDF, DOC, DOCX — ขนาดไม่เกิน 5MB</p>
+                <input type="file" id="resume-upload" accept=".pdf,.doc,.docx">
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="save-profile-btn" style="margin-top:8px;"><span class="btn-label">บันทึกการเปลี่ยนแปลง</span><span class="spinner" aria-hidden="true"></span></button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Saved jobs tab -->
+      <section class="tab-panel" id="tab-saved" role="tabpanel" aria-labelledby="tab-btn-saved">
+        <div id="saved-jobs-grid" class="grid-jobs"></div>
+        <div id="saved-empty" class="state-block" hidden>
+          <div class="state-block__icon"><span data-icon="bookmark" style="width:32px;height:32px;"></span></div>
+          <p class="state-block__title">ยังไม่มีงานที่บันทึกไว้</p>
+          <p class="text-sm">กดไอคอนบุ๊กมาร์กที่การ์ดงานเพื่อบันทึกไว้ดูภายหลัง</p>
+          <a href="index.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">ค้นหางาน</a>
+        </div>
+      </section>
+
+      <!-- Applications tab -->
+      <section class="tab-panel" id="tab-applications" role="tabpanel" aria-labelledby="tab-btn-applications">
+        <div id="applications-list" class="stack gap-4"></div>
+        <div id="applications-empty" class="state-block" hidden>
+          <div class="state-block__icon"><span data-icon="inbox" style="width:32px;height:32px;"></span></div>
+          <p class="state-block__title">คุณยังไม่ได้สมัครงานใด ๆ</p>
+          <a href="index.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">เริ่มค้นหางาน</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container"><p class="text-xs">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p></div>
+</footer>
+
+<!-- Withdraw confirm modal -->
+<div class="modal-overlay" id="withdraw-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="withdraw-title">
+    <div class="modal__header">
+      <h2 class="h3" id="withdraw-title">ถอนใบสมัคร?</h2>
+      <button class="btn btn-icon btn-ghost" data-modal-close aria-label="ปิดหน้าต่าง" data-autofocus><span data-icon="x"></span></button>
+    </div>
+    <div class="modal__body">
+      <p class="text-muted">คุณต้องการถอนใบสมัครตำแหน่งนี้ใช่หรือไม่ การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-secondary" data-modal-close>ยกเลิก</button>
+      <button class="btn btn-danger" id="confirm-withdraw-btn">ถอนใบสมัคร</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/candidate.js"></script>
+</body>
+</html>

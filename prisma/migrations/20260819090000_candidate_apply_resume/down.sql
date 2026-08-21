@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS "sessions";
+DROP TABLE IF EXISTS "applications";
+DROP TABLE IF EXISTS "resumes";
+DROP TABLE IF EXISTS "candidate_profiles";
+DROP TABLE IF EXISTS "jobs";
+DROP TABLE IF EXISTS "users";
+DROP TYPE IF EXISTS "ApplicationStatus";
+DROP TYPE IF EXISTS "ResumeStatus";
+DROP TYPE IF EXISTS "JobStatus";
+DROP TYPE IF EXISTS "UserRole";

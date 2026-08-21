@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เข้าสู่ระบบ | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+  </div>
+</header>
+
+<main id="main" class="section" style="display:flex; justify-content:center;">
+  <div class="container" style="max-width:420px;">
+    <div class="card card-pad">
+      <h1 class="h2" style="margin-bottom:6px;">เข้าสู่ระบบ</h1>
+      <p class="text-muted text-sm" style="margin-bottom:24px;">ยินดีต้อนรับกลับ เข้าสู่ระบบเพื่อจัดการงานและใบสมัครของคุณ</p>
+
+      <form id="login-form" novalidate>
+        <div class="form-group" id="email-group">
+          <label class="form-label" for="email">อีเมล<span class="required">*</span></label>
+          <input class="form-control" type="email" id="email" name="email" autocomplete="email" required>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกอีเมลให้ถูกต้อง</p>
+        </div>
+        <div class="form-group" id="password-group">
+          <label class="form-label" for="password">รหัสผ่าน<span class="required">*</span></label>
+          <div class="row" style="position:relative;">
+            <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" required style="padding-right:44px;">
+            <button type="button" class="btn btn-ghost btn-icon" id="toggle-password" style="position:absolute; right:2px; width:40px; height:40px;" aria-label="แสดงรหัสผ่าน" aria-pressed="false"><span data-icon="eye" data-icon-class="icon-sm"></span></button>
+          </div>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกรหัสผ่าน</p>
+        </div>
+
+        <div class="row-between" style="margin-bottom:20px;">
+          <label class="checkbox-row text-sm"><input type="checkbox" id="remember"> จดจำฉันไว้</label>
+          <a href="#" class="text-sm" style="color:var(--color-primary); font-weight:600;">ลืมรหัสผ่าน?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="login-submit"><span class="btn-label">เข้าสู่ระบบ</span><span class="spinner" aria-hidden="true"></span></button>
+      </form>
+
+      <p class="text-sm text-center" style="margin-top:20px; text-align:center;">ยังไม่มีบัญชี? <a href="register.html" style="color:var(--color-primary); font-weight:600;">สมัครสมาชิก</a></p>
+    </div>
+
+    <p class="text-xs text-subtle" style="text-align:center; margin-top:16px;">โปรโตไทป์สาธิต — กรอกอีเมล/รหัสผ่านใดก็ได้เพื่อดำเนินการต่อ</p>
+  </div>
+</main>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

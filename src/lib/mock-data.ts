@@ -1,0 +1,7 @@
+export type JobStatus = "published" | "pending_review" | "draft" | "paused" | "closed" | "expired";
+export type Job = { id: string; title: string; company: string; location: string; category: string; type: string; workModel: string; salary: string; status: JobStatus; applicants: number; description: string; skills: string[] };
+export const mockJobs: Job[] = [
+  { id: "00000000-0000-0000-0000-000000000001", title: "Frontend Developer (React)", company: "Baan Software", location: "กรุงเทพฯ", category: "เทคโนโลยี", type: "งานประจำ", workModel: "ไฮบริด", salary: "฿35,000 - 55,000", status: "published", applicants: 12, description: "ร่วมพัฒนา web application หลักของบริษัทด้วย React และ TypeScript", skills: ["React", "TypeScript", "Tailwind CSS"] },
+  { id: "00000000-0000-0000-0000-000000000002", title: "Backend Engineer (Go)", company: "Fintopia Thailand", location: "กรุงเทพฯ", category: "เทคโนโลยี", type: "งานประจำ", workModel: "ที่บริษัท", salary: "฿45,000 - 70,000", status: "published", applicants: 8, description: "ออกแบบและพัฒนา service สำหรับผลิตภัณฑ์สินเชื่อดิจิทัล", skills: ["Go", "PostgreSQL", "Kafka"] },
+  { id: "00000000-0000-0000-0000-000000000003", title: "Product Designer", company: "Nimbus Studio", location: "เชียงใหม่ / Remote", category: "ดีไซน์", type: "งานประจำ", workModel: "ทางไกล", salary: "฿40,000 - 60,000", status: "published", applicants: 21, description: "ออกแบบประสบการณ์ผู้ใช้ให้ผลิตภัณฑ์ดิจิทัล", skills: ["Figma", "User research"] }
+];

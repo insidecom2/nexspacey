@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.env
+.env.local
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# Keep the template tracked, but never commit generated Prisma artifacts or local database files.
+prisma/dev.db
+src/generated/

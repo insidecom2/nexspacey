@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ผู้สมัคร | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="employer-dashboard.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="employer-dashboard.html" aria-current="page">แดชบอร์ด</a>
+      <a href="employer-post-job.html">ลงประกาศงานใหม่</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <span class="avatar" aria-hidden="true">BS</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="section-tight">
+  <div class="container">
+    <a href="employer-dashboard.html" class="row gap-2 text-sm text-muted" style="margin-bottom:16px; display:inline-flex;"><span data-icon="arrowLeft" data-icon-class="icon-sm"></span>กลับไปแดชบอร์ด</a>
+    <h1 class="h2" style="font-size:22px; margin-bottom:4px;" id="job-title-heading">ผู้สมัครตำแหน่งงาน</h1>
+    <p class="text-muted text-sm" id="applicant-count-text" style="margin-bottom:24px;"></p>
+
+    <div class="row gap-2 wrap" id="status-filter" style="margin-bottom:16px;" role="group" aria-label="กรองตามสถานะผู้สมัคร"></div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ผู้สมัคร</th>
+              <th>ประสบการณ์</th>
+              <th>สมัครเมื่อ</th>
+              <th>เรซูเม่</th>
+              <th>สถานะ</th>
+            </tr>
+          </thead>
+          <tbody id="applicants-tbody"></tbody>
+        </table>
+      </div>
+      <div id="applicants-empty" class="state-block" hidden>
+        <div class="state-block__icon"><span data-icon="users" style="width:32px;height:32px;"></span></div>
+        <p class="state-block__title">ยังไม่มีผู้สมัครในสถานะนี้</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container"><p class="text-xs">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p></div>
+</footer>
+
+<!-- Reject reason modal -->
+<div class="modal-overlay" id="reject-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reject-title">
+    <div class="modal__header">
+      <h2 class="h3" id="reject-title">ไม่ผ่านการคัดเลือก</h2>
+      <button class="btn btn-icon btn-ghost" data-modal-close aria-label="ปิดหน้าต่าง" data-autofocus><span data-icon="x"></span></button>
+    </div>
+    <div class="modal__body">
+      <p class="text-muted" style="margin-bottom:12px;">บันทึกเหตุผลภายในสำหรับทีมสรรหา (จะไม่แสดงแก่ผู้สมัครใน MVP)</p>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label visually-hidden" for="reject-note">เหตุผล</label>
+        <textarea class="form-control" id="reject-note" placeholder="เช่น ผู้สมัครยังไม่ตรงกับประสบการณ์ที่ทีมต้องการ"></textarea>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-secondary" data-modal-close>ยกเลิก</button>
+      <button class="btn btn-danger" id="confirm-reject-btn">ยืนยันไม่ผ่านการคัดเลือก</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/employer-applicants.js"></script>
+</body>
+</html>

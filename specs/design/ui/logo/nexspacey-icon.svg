@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
+  <title id="title">nexspacey icon</title>
+  <desc id="desc">A rounded portal mark containing a stylized letter N and an orbiting dot.</desc>
+  <defs>
+    <linearGradient id="markGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6558D8"/>
+      <stop offset="55%" stop-color="#3979E8"/>
+      <stop offset="100%" stop-color="#16A59A"/>
+    </linearGradient>
+    <linearGradient id="orbitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B8F6EA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect x="24" y="24" width="172" height="172" rx="48" fill="url(#markGradient)"/>
+  <path d="M78 154V90L144 154V90" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66 167C92 181 135 181 163 164" fill="none" stroke="url(#orbitGradient)" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+  <circle cx="161" cy="72" r="10" fill="#B8F6EA"/>
+</svg>

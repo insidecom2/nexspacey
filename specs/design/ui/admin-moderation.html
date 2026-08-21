@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตรวจสอบประกาศงาน | JobJing Admin</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="admin-moderation.html"><span class="brand__mark">JJ</span><span>JobJing<span class="badge badge-neutral" style="margin-left:8px;">แอดมิน</span></span></a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="admin-moderation.html" aria-current="page">ตรวจสอบประกาศงาน</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <span class="avatar" aria-hidden="true">AD</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="section-tight">
+  <div class="container">
+    <h1 class="h2" style="font-size:22px; margin-bottom:4px;">ศูนย์ตรวจสอบเนื้อหา</h1>
+    <p class="text-muted text-sm" style="margin-bottom:24px;">ตรวจสอบประกาศงานใหม่ ระงับประกาศที่มีปัญหา และติดตาม Audit activity</p>
+
+    <div class="stat-grid" id="admin-stats" style="margin-bottom:28px;"></div>
+
+    <div class="tabs" role="tablist" aria-label="งานผู้ดูแลระบบ">
+      <button class="tab-btn is-active" id="tab-btn-pending" role="tab" aria-selected="true" aria-controls="tab-pending" data-tab="pending">รอตรวจสอบ <span id="pending-count" class="badge badge-warning"></span></button>
+      <button class="tab-btn" id="tab-btn-suspended" role="tab" aria-selected="false" aria-controls="tab-suspended" data-tab="suspended">ประกาศที่ระงับ</button>
+      <button class="tab-btn" id="tab-btn-audit" role="tab" aria-selected="false" aria-controls="tab-audit" data-tab="audit">Audit activity</button>
+    </div>
+
+    <div style="padding-top:20px;">
+      <section class="tab-panel is-active" id="tab-pending" role="tabpanel" aria-labelledby="tab-btn-pending">
+        <div id="pending-list" class="stack gap-4"></div>
+        <div id="pending-empty" class="state-block" hidden>
+          <div class="state-block__icon"><span data-icon="checkCircle" style="width:32px;height:32px;"></span></div>
+          <p class="state-block__title">ไม่มีประกาศงานรอตรวจสอบ</p>
+          <p class="text-sm">ประกาศงานใหม่จากผู้ประกอบการจะปรากฏที่นี่</p>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-suspended" role="tabpanel" aria-labelledby="tab-btn-suspended">
+        <div id="suspended-list" class="stack gap-4"></div>
+      </section>
+      <section class="tab-panel" id="tab-audit" role="tabpanel" aria-labelledby="tab-btn-audit">
+        <div id="audit-list" class="stack gap-3"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container"><p class="text-xs">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p></div>
+</footer>
+
+<!-- Reject job modal -->
+<div class="modal-overlay" id="reject-job-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reject-job-title">
+    <div class="modal__header">
+      <h2 class="h3" id="reject-job-title">ปฏิเสธประกาศงาน</h2>
+      <button class="btn btn-icon btn-ghost" data-modal-close aria-label="ปิดหน้าต่าง" data-autofocus><span data-icon="x"></span></button>
+    </div>
+    <div class="modal__body">
+      <p class="text-muted" style="margin-bottom:12px;">ระบุเหตุผลที่ปฏิเสธ เพื่อแจ้งให้ผู้ประกอบการแก้ไข</p>
+      <div class="form-group" id="reject-job-group" style="margin-bottom:0;">
+        <label class="form-label visually-hidden" for="reject-job-reason">เหตุผล</label>
+        <textarea class="form-control" id="reject-job-reason" placeholder="เช่น เงินเดือนที่ระบุไม่ชัดเจน กรุณาระบุช่วงเงินเดือน"></textarea>
+        <p class="form-error"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณาระบุเหตุผลก่อนปฏิเสธ</p>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-secondary" data-modal-close>ยกเลิก</button>
+      <button class="btn btn-danger" id="confirm-reject-job-btn">ยืนยันปฏิเสธ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="suspend-job-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="suspend-job-title">
+    <div class="modal__header"><h2 class="h3" id="suspend-job-title">ระงับประกาศงาน</h2><button class="btn btn-icon btn-ghost" data-modal-close aria-label="ปิดหน้าต่าง" data-autofocus><span data-icon="x"></span></button></div>
+    <div class="modal__body"><div class="form-group" id="suspend-job-group"><label class="form-label" for="suspend-job-reason">เหตุผล<span class="required">*</span></label><textarea class="form-control" id="suspend-job-reason"></textarea><p class="form-error" role="alert">กรุณาระบุเหตุผล</p></div></div>
+    <div class="modal__footer"><button class="btn btn-secondary" data-modal-close>ยกเลิก</button><button class="btn btn-danger" id="confirm-suspend-job-btn">ยืนยันระงับ</button></div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+# MVP Progress
+
+## Completed
+
+- สร้าง MVP slice **Candidate สมัครงานพร้อม Resume**
+- เพิ่ม Prisma schema และ migration สำหรับ:
+  - Users และ Sessions
+  - Candidate profiles
+  - Resumes
+  - Jobs
+  - Applications
+- เชื่อมต่อ PostgreSQL จริงและ apply migration สำเร็จ
+- เพิ่ม authentication แบบ email/password พร้อม server-side session
+- เพิ่ม Resume upload:
+  - รองรับ PDF, DOC และ DOCX
+  - ขนาดไม่เกิน 5 MB
+  - ตรวจ MIME type และ file signature
+- เพิ่ม Apply API:
+  - ต้องเข้าสู่ระบบก่อนสมัคร
+  - ต้องมี Resume ที่พร้อมใช้งาน
+  - สมัครได้เฉพาะ job ที่ `published` และยังไม่หมดอายุ
+  - ป้องกันการสมัครงานซ้ำด้วย database unique constraint
+  - เก็บ Resume snapshot กับใบสมัคร
+- เชื่อมหน้า Candidate profile และ Apply dialog เข้ากับ API จริง
+- เพิ่ม demo jobs สำหรับทดสอบ flow
+- เพิ่ม requirement และ decision log ที่ `specs/features/candidate-apply-resume/`
+- ทำ Employer applicant management slice ต่อ:
+  - เพิ่ม Company และ CompanyMember ownership boundary สำหรับ Job
+  - เพิ่ม Employer registration/login พร้อมสร้าง Company owner ใน transaction
+  - Employer ดูใบสมัครเฉพาะ Job ของบริษัทตนเองและกรองตามตำแหน่ง/สถานะได้
+  - Employer เปลี่ยนสถานะใบสมัครตามลำดับธุรกิจและดาวน์โหลด Resume ผ่าน route ที่ตรวจสิทธิ์
+  - เชื่อมหน้า `/employer` กับ API จริง พร้อม loading, empty, error และ pending states
+- ทำ Employer Job CRUD + Company Profile slice ต่อ:
+  - เพิ่ม Company profile fields: name, location, industry และ about
+  - Employer ดู/สร้าง/แก้ไข/ลบ Job ของบริษัทตนเอง
+  - รองรับ Draft, Pending review, pause/resume และ close ตาม lifecycle
+  - กัน Employer publish Job โดยตรง; แก้ Published/Paused แล้ว reset เป็น Draft
+  - เชื่อมหน้า `/employer/jobs` และ `/employer/company` กับ API จริง
+- ปรับ live Next.js template ให้ flat มากขึ้น โดยใช้ border/surface แทน card shadows และคง shadow เฉพาะ dialog
+- ทำ Admin Job Moderation slice ต่อ:
+  - เพิ่ม `moderation_status` แยกจาก `job.status` พร้อม rejection reason และ moderation actor/time
+  - Admin ดูคิว `PENDING_REVIEW`, approve เป็น Published หรือ reject กลับ Draft พร้อมเหตุผล
+  - บันทึก `JOB_APPROVED`/`JOB_REJECTED` ใน `audit_logs` transaction เดียวกับการเปลี่ยนสถานะ
+  - Employer เห็นเหตุผล reject และ resubmit กลับเข้าคิวได้
+  - เชื่อมหน้า `/admin` กับ API จริง พร้อม loading, empty, error, retry และ pending states
+- เพิ่ม role-based global navigation เชื่อมหน้า public, auth, candidate, employer และ admin โดยใช้ flat navigation style
+  - Candidate เห็นเมนูโปรไฟล์ผู้สมัครหลัง login ด้วย role `CANDIDATE`
+  - Employer เห็นเมนูพื้นที่บริษัทหลัง login ด้วย role `EMPLOYER`
+  - Admin เห็นเมนูศูนย์ตรวจสอบหลัง login ด้วย role `ADMIN`
+- ทำ Public Job Search + Saved Jobs slice ต่อ:
+  - ย้าย public search และ Job detail จาก mock data เป็น PostgreSQL จริง
+  - ค้นหา keyword ด้วย PostgreSQL Full-Text Search พร้อม `ILIKE` fallback และกรอง location
+  - แสดงเฉพาะ Job ที่ Published และยังไม่หมดอายุ
+  - Candidate บันทึก/ยกเลิกการบันทึก Job แบบ idempotent โดยมี unique constraint ระดับ database
+  - Candidate dashboard แสดงงานที่บันทึกไว้ รวมสถานะงานที่ปิดหรือไม่เปิดรับแล้ว
+  - เพิ่ม loading, empty, error, retry และ pending states ใน search/save/detail flow
+- ทำ Candidate Withdraw Application slice ต่อ:
+  - Candidate ถอนใบสมัครของตนเองได้จาก `SUBMITTED`, `REVIEWING`, `SHORTLISTED` และ `INTERVIEW`
+  - ป้องกันการถอน `OFFERED`/`REJECTED` และกัน cross-owner/server-side role mutation
+  - Retry หลัง `WITHDRAWN` เป็น idempotent และบันทึก `APPLICATION_WITHDRAWN` ใน Audit Log ครั้งเดียว
+  - เพิ่มปุ่มถอนใบสมัครใน Candidate dashboard พร้อม confirmation, pending และ error states
+- ทำ Resume access hardening slice ต่อ:
+  - Employer ขอ app-signed URL อายุ 60 วินาทีได้หลังตรวจ company ownership
+  - Signed download ตรวจ HMAC signature/expiry ก่อนอ่าน Resume และไม่ต้องส่ง session cookie
+  - คง legacy download route เดิมไว้ พร้อม session/ownership check
+  - เพิ่ม pending, double-submit guard, error และ retry ในปุ่มดาวน์โหลดฝั่ง Employer
+  - Production ที่ไม่มี `RESUME_SIGNING_SECRET` จะ fail closed; local development มี fallback เฉพาะ non-production
+- ทำ Job expiration slice ต่อ:
+  - `PUBLISHED` และ `PAUSED` ที่ `expiresAt <= now` เปลี่ยนเป็น `EXPIRED` แบบ idempotent
+  - เพิ่ม `JOB_EXPIRED` audit log ใน transaction เดียวกัน และใช้ row lock กัน concurrent trigger ซ้ำ
+  - Public search/detail และ Employer jobs list กวาดสถานะหมดอายุค้างก่อนอ่านข้อมูล
+  - Admin approve งานที่หมดอายุแล้วไม่ได้
+  - เพิ่ม Admin-only maintenance trigger สำหรับกวาดงานหมดอายุ
+- ทำ Resume storage, malware scanning และ automated tests slice ต่อ:
+  - เพิ่ม reversible migration ให้ Resume รองรับ `postgres` หรือ private `r2` provider พร้อม SHA-256 checksum
+  - เพิ่ม Cloudflare R2 S3-compatible adapter สำหรับ put/get/delete โดยไม่เปิด public object URL
+  - Resume เดิมถูก migrate เป็น PostgreSQL provider และยังอ่านได้ตามปกติ
+  - เพิ่ม ClamAV `clamd` INSTREAM scanner ก่อน persistence; production ขาด scanner/config จะ fail closed
+  - ตรวจ checksum ตอนอ่าน Resume และ cleanup R2 object เมื่อสร้าง DB row ไม่สำเร็จ
+  - เพิ่ม Vitest config, `npm run test` และ automated tests สำหรับ signed token, file validation, scanner/storage config และ checksum
+
+## API ที่เพิ่ม
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
+- `GET /api/profile/resumes`
+- `POST /api/profile/resumes`
+- `GET /api/candidate/applications`
+- `POST /api/jobs/:id/applications`
+- `GET /api/employer/applications`
+- `PATCH /api/employer/applications/:id`
+- `GET /api/employer/applications/:id/resume`
+- `GET /api/employer/applications/:id/resume-url`
+- `GET /api/resumes/download?token=:token`
+- `POST /api/admin/maintenance/expire-jobs`
+- `GET /api/employer/company`
+- `PATCH /api/employer/company`
+- `GET /api/employer/jobs`
+- `POST /api/employer/jobs`
+- `PATCH /api/employer/jobs/:id`
+- `DELETE /api/employer/jobs/:id`
+- `GET /api/admin/moderation/jobs`
+- `PATCH /api/admin/moderation/jobs/:id`
+- `GET /api/jobs`
+- `GET /api/jobs/:id`
+- `GET /api/candidate/saved-jobs`
+- `POST /api/jobs/:id/saved`
+- `DELETE /api/jobs/:id/saved`
+- `POST /api/candidate/applications/:id/withdraw`
+
+## Verification
+
+- `npm run typecheck` ผ่าน
+- `npm run lint` ผ่าน
+- `npm run build` ผ่าน
+- Prisma migration status: database schema up to date
+- Employer migration `20260820100000_employer_applicant_management` apply สำเร็จบน PostgreSQL `localhost:5435`
+- Company profile migration `20260820110000_company_profile_fields` apply สำเร็จบน PostgreSQL `localhost:5435`
+- Admin moderation migration `20260820120000_admin_job_moderation` apply สำเร็จบน PostgreSQL `localhost:5435`
+- Public search/saved jobs migration `20260820130000_public_search_saved_jobs` apply สำเร็จบน PostgreSQL `localhost:5435`
+- Employer integration flow ผ่านกับ Next server และ PostgreSQL จริง:
+  - Employer login: `200`
+  - Applicant list ของบริษัท: `200`
+  - PATCH สถานะเดิมแบบ idempotent: `200`
+  - Invalid status transition: `400`
+  - Resume download: `200 application/pdf`
+  - Candidate เรียก Employer API: `403`
+  - Unauthenticated Employer API: `401`
+- Employer Job/Company integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Company GET: `200`
+  - Company PATCH Owner: `200`
+  - Create Draft Job: `201`
+  - Edit + submit Pending review: สำเร็จ
+  - Direct publish: ถูกปฏิเสธ
+  - Delete Pending review: ถูกปฏิเสธ
+  - Draft cleanup delete: `200`
+- Admin moderation integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Admin queue: `200`; Employer เรียก queue: `403`
+  - Reject พร้อมเหตุผล: `200` และกลับเป็น Draft
+  - Action ซ้ำหลังตัดสิน: `409`
+  - Employer resubmit: กลับเป็น Pending review และล้างเหตุผลเดิม
+  - Approve: `200` และเปลี่ยนเป็น Published
+  - Audit log: พบ `JOB_REJECTED` และ `JOB_APPROVED` อย่างละ 1 รายการ; ลบ test data แล้ว
+- Integration flow ผ่าน:
+  - Register: `201`
+  - Upload Resume: `201`
+  - Apply: `201`
+  - Duplicate application: `409`
+  - Unauthenticated request: `401`
+- Invalid MIME type: `400`
+- Prisma schema validation ผ่าน
+- `npm run typecheck` ผ่านหลังเพิ่ม Employer slice
+- `npm run lint` ผ่านหลังเพิ่ม Employer slice
+- `npm run build` ผ่านหลังเพิ่ม Employer slice
+- ตรวจ HTML ของ production build แล้วพบ navigation links ที่ `/`, `/login`, `/register`, `/candidate`, `/employer` และ `/admin`
+- ตรวจ session จริงบน production build: Candidate/Employer/Admin ได้ role ตรงบัญชี และ unauthenticated ได้ `401`
+- Public search/saved jobs integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Public search: `200`; keyword + location match ได้ข้อมูลที่ถูกต้อง
+  - Hostile search input ถูก parameterize และไม่ทำให้ SQL error/injection
+  - Draft ไม่ปรากฏใน public search และ public detail ได้ `404`
+  - Candidate save ซ้ำได้อย่างปลอดภัยและเหลือ row เดียว
+  - Candidate unsave ซ้ำได้อย่างปลอดภัย
+  - Employer saved mutation: `403`; unauthenticated: `401`
+  - Test saved row และ hidden test job ถูก cleanup แล้ว
+- DB verification: `saved_jobs` table, unique index และ `jobs_public_search_fts_idx` มีอยู่จริง
+- Candidate withdraw integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Candidate withdraw submitted application: `200`, status เป็น `WITHDRAWN`
+  - Retry withdraw: `200` แบบ idempotent
+  - OFFERED terminal: `409` และ status ไม่เปลี่ยน
+  - Employer: `403`; unauthenticated: `401`; invalid UUID: `400`
+  - Audit log มี `APPLICATION_WITHDRAWN` 1 รายการ และ test application ถูก cleanup แล้ว
+- ไม่มี migration ใหม่สำหรับ withdraw เพราะ `ApplicationStatus.WITHDRAWN` และ `audit_logs` มีอยู่แล้ว
+- Resume signed URL integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Employer ขอ URL: `200`; expiry 60 วินาที
+  - เปิด signed URL โดยไม่ใช้ cookie: `200 application/pdf`
+  - Response มี `private, no-store` และ `nosniff`
+  - Token หาย/ถูกแก้ไข/หมดอายุ: `401`
+  - Candidate: `403`; unauthenticated: `401`; application ต่างบริษัท/ไม่พบ: `404`
+  - Legacy Resume route: `200 application/pdf`
+- ไม่มี migration ใหม่สำหรับ signed URL เพราะใช้ HMAC token และไม่เพิ่ม persistence
+- Job expiration integration flow ผ่านกับ compiled Next server และ PostgreSQL จริง:
+  - Admin trigger due PUBLISHED/PAUSED: `expiredCount: 2`
+  - concurrent/retry trigger อีกครั้ง: `expiredCount: 0`
+  - Future/DRAFT/CLOSED/EXPIRED ไม่ถูกเปลี่ยน
+  - `JOB_EXPIRED` audit log มีอย่างละ 1 รายการ พร้อม previous status
+  - Public search ไม่แสดง due jobs; Candidate apply expired job: `400`
+  - Admin approve expired pending job: `400` และยังเป็น `PENDING_REVIEW`
+  - Unauthenticated: `401`; Candidate/Employer: `403`
+- ไม่มี migration ใหม่สำหรับ Job expiration เพราะใช้ enum, `expires_at` และ `audit_logs` ที่มีอยู่แล้ว
+- Resume storage/scanning migration `20260820140000_resume_storage_scanning` apply สำเร็จบน PostgreSQL `localhost:5435`
+- Resume storage/scanning verification:
+  - `resumes.content` เป็น nullable; `storage_provider`, `checksum_sha256` และ provider index มีอยู่จริง
+  - Legacy Resume 1 row ยังเป็น `postgres` และ Employer legacy/signed download: `200 application/pdf`
+  - R2/ClamAV config ไม่มี credential จึงทดสอบด้วย fail-closed unit/config cases; ยังไม่มี live external service verification
+- Automated tests: `npm run test` ผ่าน 8 tests จาก 4 files
+- `npm run typecheck`, `npm run lint` และ `npm run build` ผ่านหลังเพิ่ม storage/scanner/test framework
+- ทำ Candidate Profile Update slice ต่อ:
+  - Candidate อ่านและแก้ไข `displayName` ของตนเองผ่าน `/api/profile`
+  - Server derive profile ownership จาก session, จำกัด role เป็น Candidate และ validate payload แบบ strict ด้วย Zod
+  - Candidate dashboard มี form พร้อม validation, pending guard, success และ error feedback
+- Candidate Profile Update verification:
+  - `npm run typecheck`, `npm run lint` และ `npm run test` ผ่าน (10 tests จาก 5 files)
+  - `npx next build --webpack` ผ่าน; Turbopack build ถูก environment ปฏิเสธการ bind port ระหว่าง CSS compilation
+
+## Local Accounts
+
+ไม่มี demo user credentials ในโปรเจกต์แล้ว สำหรับ local verification ให้สร้างบัญชีทดสอบใหม่ผ่านหน้า Register ตาม role ที่ต้องใช้
+
+## Deferred Work
+
+- ตั้งค่า R2 bucket/credentials จริงใน deployment environment
+- ตั้งค่า ClamAV service/signature database ใน deployment environment
+- Browser E2E test framework
+
+Resume storage ตอนนี้รองรับ R2 แบบ private ผ่าน server-side adapter แล้ว แต่ local default ยังใช้ PostgreSQL จนกว่าจะตั้ง `RESUME_STORAGE_PROVIDER=r2` และ R2 credentials ใน environment
+
+Employer slice decision log อยู่ที่ `specs/features/employer-applicant-management/`:
+
+- Employer account หนึ่งบัญชีสร้าง Company หนึ่งรายการและเป็น `OWNER`
+- `OFFERED`, `REJECTED` และ `WITHDRAWN` เป็นสถานะปลายทางของการจัดการใบสมัคร
+- ยังไม่เก็บ rejection note, audit log, multi-company membership หรือ object storage

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>รายละเอียดงาน | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="index.html">หางาน</a>
+      <a href="candidate-profile.html">งานที่บันทึกไว้</a>
+      <a href="candidate-profile.html">ใบสมัครของฉัน</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <a class="btn btn-icon btn-ghost" href="candidate-profile.html" aria-label="โปรไฟล์ของฉัน"><span data-icon="users"></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container" style="padding-top:20px;">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="index.html">หางาน</a>
+      <span data-icon="chevronRight" data-icon-class="icon-sm"></span>
+      <span id="crumb-title" aria-current="page">รายละเอียดงาน</span>
+    </nav>
+  </div>
+
+  <div id="loading-state" class="container" style="padding-top:32px;">
+    <div class="skeleton" style="height:32px;width:60%;margin-bottom:16px;"></div>
+    <div class="skeleton" style="height:16px;width:40%;margin-bottom:32px;"></div>
+    <div class="skeleton" style="height:200px;width:100%;"></div>
+  </div>
+
+  <div id="job-detail-content" class="section-tight" hidden>
+    <div class="container" style="display:grid; grid-template-columns: 1fr 320px; gap:32px; align-items:flex-start;">
+      <div>
+        <div class="row gap-3" style="align-items:flex-start; margin-bottom:16px;">
+          <div class="job-card__logo" id="logo" style="width:56px;height:56px;font-size:18px;" aria-hidden="true"></div>
+          <div>
+            <h1 class="h1" id="job-title" style="font-size:26px;"></h1>
+            <p class="text-muted" id="job-company" style="margin-top:4px;"></p>
+          </div>
+        </div>
+
+        <div class="row wrap gap-2" id="job-badges" style="margin-bottom:24px;"></div>
+
+        <div class="card card-pad" style="margin-bottom:20px;">
+          <h2 class="h3" style="margin-bottom:12px;">รายละเอียดงาน</h2>
+          <p id="job-description" class="text-muted"></p>
+        </div>
+
+        <div class="card card-pad" style="margin-bottom:20px;">
+          <h2 class="h3" style="margin-bottom:12px;">ความรับผิดชอบ</h2>
+          <ul id="job-responsibilities" class="stack gap-2 text-muted"></ul>
+        </div>
+
+        <div class="card card-pad" style="margin-bottom:20px;">
+          <h2 class="h3" style="margin-bottom:12px;">คุณสมบัติ</h2>
+          <ul id="job-requirements" class="stack gap-2 text-muted"></ul>
+        </div>
+
+        <div class="card card-pad">
+          <h2 class="h3" style="margin-bottom:12px;">สวัสดิการ</h2>
+          <div id="job-benefits" class="row wrap gap-2"></div>
+        </div>
+        <div class="card card-pad" style="margin-top:20px;">
+          <h2 class="h3" style="margin-bottom:12px;">ทักษะที่ต้องการ</h2>
+          <div id="job-skills" class="row wrap gap-2"></div>
+        </div>
+      </div>
+
+      <aside class="stack gap-4 job-detail-actions">
+        <div class="card card-pad">
+          <p class="job-card__salary" id="job-salary" style="font-size:20px; margin-bottom:4px;"></p>
+          <p class="text-sm text-subtle" id="job-posted" style="margin-bottom:20px;"></p>
+          <p class="text-xs text-subtle" id="job-expires" style="margin-top:-12px; margin-bottom:20px;"></p>
+          <div class="stack gap-2">
+            <button class="btn btn-primary btn-block" id="apply-btn"><span class="btn-label">สมัครงานนี้</span><span class="spinner" aria-hidden="true"></span></button>
+            <button class="btn btn-secondary btn-block" id="save-btn"></button>
+          </div>
+          <p class="text-xs text-subtle" id="applicants-count" style="margin-top:12px; text-align:center;"></p>
+        </div>
+
+        <div class="card card-pad">
+          <h2 class="h3" style="margin-bottom:8px;" id="company-name"></h2>
+          <p class="text-sm text-muted" id="company-industry" style="margin-bottom:12px;"></p>
+          <p class="text-sm text-muted" id="company-about"></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="not-found-state" class="container state-block" hidden>
+    <div class="state-block__icon"><span data-icon="alertCircle" style="width:32px;height:32px;"></span></div>
+    <p class="state-block__title">ไม่พบประกาศงานนี้</p>
+    <p class="text-sm">ประกาศอาจถูกลบหรือหมดอายุแล้ว</p>
+    <a href="index.html" class="btn btn-secondary btn-sm" style="margin-top:16px;">กลับไปหน้าค้นหางาน</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="text-xs">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p>
+  </div>
+</footer>
+
+<!-- Apply modal -->
+<div class="modal-overlay" id="apply-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
+    <div class="modal__header">
+      <h2 class="h3" id="apply-modal-title">ยืนยันการสมัครงาน</h2>
+      <button class="btn btn-icon btn-ghost" data-modal-close aria-label="ปิดหน้าต่าง" data-autofocus><span data-icon="x"></span></button>
+    </div>
+    <div class="modal__body">
+      <p class="text-muted" style="margin-bottom:16px;">คุณกำลังสมัครตำแหน่ง <strong id="modal-job-title"></strong> ที่ <strong id="modal-company-name"></strong></p>
+      <div class="card card-pad row gap-3" style="align-items:center; background: var(--color-neutral-surface); border-style:dashed;">
+        <span data-icon="fileText"></span>
+        <div style="min-width:0; flex:1;">
+          <p class="text-sm" style="font-weight:600;" id="modal-resume-name">jirayu-resume-2026.pdf</p>
+          <p class="text-xs text-subtle">เรซูเม่ที่แนบไปกับใบสมัครนี้ — แก้ไขได้ในหน้าโปรไฟล์</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-secondary" data-modal-close>ยกเลิก</button>
+      <button class="btn btn-primary" id="confirm-apply-btn"><span class="btn-label">ยืนยันสมัคร</span><span class="spinner" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/job-detail.js"></script>
+</body>
+</html>

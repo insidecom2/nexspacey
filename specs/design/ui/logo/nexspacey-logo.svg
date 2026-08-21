@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" role="img" aria-labelledby="title desc">
+  <title id="title">nexspacey logo</title>
+  <desc id="desc">A rounded portal mark containing a stylized letter N, followed by the nexspacey wordmark.</desc>
+  <defs>
+    <linearGradient id="markGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6558D8"/>
+      <stop offset="55%" stop-color="#3979E8"/>
+      <stop offset="100%" stop-color="#16A59A"/>
+    </linearGradient>
+    <linearGradient id="orbitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B8F6EA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(24 24)">
+    <rect width="172" height="172" rx="48" fill="url(#markGradient)"/>
+    <path d="M54 130V66L120 130V66" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M42 143C68 157 111 157 139 140" fill="none" stroke="url(#orbitGradient)" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+    <circle cx="137" cy="48" r="10" fill="#B8F6EA"/>
+  </g>
+
+  <text x="238" y="125" fill="#111C3A" font-family="Inter, Arial, Helvetica, sans-serif" font-size="78" font-weight="800" letter-spacing="-3">nexspacey</text>
+  <text x="242" y="166" fill="#5D6B82" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="600" letter-spacing="2">YOUR NEXT SPACE TO GROW</text>
+</svg>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>หางาน | JobJing — แพลตฟอร์มหางานที่ไว้ใจได้</title>
+<meta name="description" content="ค้นหางานที่ใช่ บันทึกและสมัครงานได้ง่าย จากบริษัทที่ผ่านการตรวจสอบ">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">JJ</span>
+      <span>JobJing</span>
+    </a>
+    <button class="nav-toggle" aria-label="เปิดเมนู" aria-expanded="false"><span data-icon="menu"></span></button>
+    <nav class="main-nav" aria-label="เมนูหลัก">
+      <a href="index.html" aria-current="page">หางาน</a>
+      <a href="candidate-profile.html">งานที่บันทึกไว้</a>
+      <a href="candidate-profile.html">ใบสมัครของฉัน</a>
+    </nav>
+    <div class="header-actions">
+      <div class="demo-role-switch" role="group" aria-label="สลับมุมมองสาธิต">
+        <button type="button" data-role="candidate">ผู้หางาน</button>
+        <button type="button" data-role="employer">ผู้ประกอบการ</button>
+        <button type="button" data-role="admin">แอดมิน</button>
+      </div>
+      <a class="btn btn-icon btn-ghost" href="candidate-profile.html" aria-label="โปรไฟล์ของฉัน"><span data-icon="users"></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section-tight" style="background: var(--color-surface); border-bottom:1px solid var(--color-border);">
+    <div class="container">
+      <h1 class="h1">หางานที่ใช่ จากบริษัทที่ตรวจสอบแล้ว</h1>
+      <p class="text-muted" style="margin-top:8px; max-width:60ch;">ค้นหา บันทึก และสมัครงานได้ในที่เดียว — ประกาศงานทุกรายการผ่านการตรวจสอบโดยทีมงาน</p>
+
+      <form id="search-form" class="card card-pad" style="margin-top:24px;" role="search" aria-label="ค้นหางาน">
+        <div class="form-row" style="grid-template-columns: 2fr 1fr auto; align-items:end;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="q">ตำแหน่งงาน หรือ คำค้นหา</label>
+            <input class="form-control" type="search" id="q" name="q" placeholder="เช่น Frontend Developer, Data Analyst">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="loc">สถานที่ทำงาน</label>
+            <input class="form-control" type="text" id="loc" name="loc" placeholder="เช่น กรุงเทพฯ">
+          </div>
+          <button class="btn btn-primary" type="submit"><span id="search-icon"></span><span class="btn-label">ค้นหางาน</span></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="row-between" style="margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+        <div id="result-count" class="text-muted text-sm" aria-live="polite">กำลังโหลด...</div>
+        <div class="row gap-2" style="flex-wrap:wrap;">
+          <label class="visually-hidden" for="sort">เรียงลำดับ</label>
+          <select class="form-control" id="sort" style="min-height:40px; width:auto;">
+            <option value="new">ล่าสุด</option>
+            <option value="salary">เงินเดือนสูงสุด</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="filter-pills" class="row wrap gap-2" style="margin-bottom:20px;" aria-label="กรองตามหมวดหมู่"></div>
+      <div class="form-row" style="margin-bottom:20px;">
+        <div class="form-group" style="margin-bottom:0;"><label class="form-label" for="job-type-filter">ประเภทงาน</label><select class="form-control" id="job-type-filter"><option value="">ทั้งหมด</option><option value="full_time">งานประจำ</option><option value="part_time">พาร์ทไทม์</option><option value="contract">สัญญาจ้าง</option><option value="internship">ฝึกงาน</option></select></div>
+        <div class="form-group" style="margin-bottom:0;"><label class="form-label" for="work-model-filter">รูปแบบการทำงาน</label><select class="form-control" id="work-model-filter"><option value="">ทั้งหมด</option><option value="onsite">ที่บริษัท</option><option value="hybrid">ไฮบริด</option><option value="remote">ทางไกล</option></select></div>
+      </div>
+
+      <div id="job-results" class="grid-jobs" aria-live="polite"></div>
+      <div id="empty-state" class="state-block" hidden>
+        <div class="state-block__icon"><span data-icon="search" data-icon-class="icon" style="width:32px;height:32px;"></span></div>
+        <p class="state-block__title">ไม่พบงานที่ตรงกับการค้นหา</p>
+        <p class="text-sm">ลองปรับคำค้นหาหรือเลือกหมวดหมู่อื่น</p>
+        <button class="btn btn-secondary btn-sm" style="margin-top:16px;" id="clear-filters">ล้างตัวกรองทั้งหมด</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <div class="brand" style="margin-bottom:8px;"><span class="brand__mark">JJ</span><span>JobJing</span></div>
+      <p class="text-sm">แพลตฟอร์มหางานที่ไว้ใจได้ สำหรับผู้หางานและผู้ประกอบการ</p>
+    </div>
+    <div>
+      <p class="h3" style="font-size:14px; margin-bottom:8px;">สำหรับผู้หางาน</p>
+      <ul class="stack gap-2 text-sm">
+        <li><a href="index.html">ค้นหางาน</a></li>
+        <li><a href="candidate-profile.html">โปรไฟล์ของฉัน</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="h3" style="font-size:14px; margin-bottom:8px;">สำหรับผู้ประกอบการ</p>
+      <ul class="stack gap-2 text-sm">
+        <li><a href="employer-dashboard.html">แดชบอร์ด</a></li>
+        <li><a href="employer-post-job.html">ลงประกาศงาน</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="h3" style="font-size:14px; margin-bottom:8px;">บัญชี</p>
+      <ul class="stack gap-2 text-sm">
+        <li><a href="login.html">เข้าสู่ระบบ</a></li>
+        <li><a href="register.html">สมัครสมาชิก</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="text-xs" style="margin-top:32px;">© 2026 JobJing — โปรโตไทป์สำหรับสาธิตเท่านั้น</p>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/search.js"></script>
+</body>
+</html>

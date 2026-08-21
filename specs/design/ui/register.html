@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สมัครสมาชิก | JobJing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark">JJ</span><span>JobJing</span></a>
+  </div>
+</header>
+
+<main id="main" class="section" style="display:flex; justify-content:center;">
+  <div class="container" style="max-width:460px;">
+    <div class="card card-pad">
+      <h1 class="h2" style="margin-bottom:6px;">สมัครสมาชิก</h1>
+      <p class="text-muted text-sm" style="margin-bottom:20px;">เลือกประเภทบัญชีที่ตรงกับคุณ</p>
+
+      <div class="form-group">
+        <div class="row gap-3" role="radiogroup" aria-label="ประเภทบัญชี">
+          <label class="card card-pad row gap-2" style="flex:1; cursor:pointer; align-items:center;" id="role-candidate-label">
+            <input type="radio" name="account-role" value="candidate" checked style="width:20px;height:20px;accent-color:var(--color-primary);">
+            <span>
+              <span style="display:block; font-weight:600;">ผู้หางาน</span>
+              <span class="text-xs text-subtle">ค้นหาและสมัครงาน</span>
+            </span>
+          </label>
+          <label class="card card-pad row gap-2" style="flex:1; cursor:pointer; align-items:center;" id="role-employer-label">
+            <input type="radio" name="account-role" value="employer" style="width:20px;height:20px;accent-color:var(--color-primary);">
+            <span>
+              <span style="display:block; font-weight:600;">ผู้ประกอบการ</span>
+              <span class="text-xs text-subtle">ลงประกาศงาน</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <form id="register-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="fullname">ชื่อ-นามสกุล<span class="required">*</span></label>
+          <input class="form-control" type="text" id="fullname" name="fullname" autocomplete="name" required>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกชื่อ-นามสกุล</p>
+        </div>
+
+        <div class="form-group" id="company-field" hidden>
+          <label class="form-label" for="companyname">ชื่อบริษัท<span class="required">*</span></label>
+          <input class="form-control" type="text" id="companyname" name="companyname" autocomplete="organization">
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกชื่อบริษัท</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">อีเมล<span class="required">*</span></label>
+          <input class="form-control" type="email" id="reg-email" name="email" autocomplete="email" required>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณากรอกอีเมลให้ถูกต้อง</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">รหัสผ่าน<span class="required">*</span></label>
+          <input class="form-control" type="password" id="reg-password" name="password" autocomplete="new-password" required>
+          <p class="form-help">อย่างน้อย 8 ตัวอักษร</p>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร</p>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-row text-sm">
+            <input type="checkbox" id="agree" required>
+            ฉันยอมรับ<a href="#" style="color:var(--color-primary); margin:0 4px;">ข้อตกลงการใช้งาน</a>และ<a href="#" style="color:var(--color-primary); margin-left:4px;">นโยบายความเป็นส่วนตัว</a>
+          </label>
+          <p class="form-error" role="alert"><span data-icon="alertCircle" data-icon-class="icon-sm"></span>กรุณายอมรับข้อตกลงก่อนสมัครสมาชิก</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="register-submit"><span class="btn-label">สมัครสมาชิก</span><span class="spinner" aria-hidden="true"></span></button>
+      </form>
+
+      <p class="text-sm" style="margin-top:20px; text-align:center;">มีบัญชีอยู่แล้ว? <a href="login.html" style="color:var(--color-primary); font-weight:600;">เข้าสู่ระบบ</a></p>
+    </div>
+  </div>
+</main>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
