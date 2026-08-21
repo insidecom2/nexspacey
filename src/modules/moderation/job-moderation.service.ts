@@ -59,8 +59,7 @@ export async function listModeratableJobs() {
 
 export async function moderateJob(input: { adminId: string; jobId: string; action: JobModerationAction; reason?: string }) {
   if (input.action === "reject" || input.action === "suspend") {
-    const reason = input.reason?.trim() ?? "";
-    if (reason.length < 5 || reason.length > 1000) throw new AdminModerationValidationError("เหตุผลการปฏิเสธต้องมี 5–1000 ตัวอักษร");
+    validateModerationReason(input.reason);
   }
 
   return prisma.$transaction(async (tx) => {
@@ -102,4 +101,10 @@ export async function moderateJob(input: { adminId: string; jobId: string; actio
     });
     return job;
   });
+}
+
+export function validateModerationReason(reason?: string) {
+  const trimmed = reason?.trim() ?? "";
+  if (trimmed.length < 5 || trimmed.length > 1000) throw new AdminModerationValidationError("เหตุผลการปฏิเสธต้องมี 5–1000 ตัวอักษร");
+  return trimmed;
 }

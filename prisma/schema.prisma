@@ -234,3 +234,14 @@ model SavedJob {
   @@index([jobId])
   @@map("saved_jobs")
 }
+
+model RateLimitWindow {
+  action           String   @db.VarChar(80)
+  subjectId        String   @map("subject_id") @db.Uuid
+  windowStartedAt DateTime @map("window_started_at")
+  count            Int      @default(0)
+
+  @@id([action, subjectId, windowStartedAt])
+  @@index([windowStartedAt])
+  @@map("rate_limit_windows")
+}
